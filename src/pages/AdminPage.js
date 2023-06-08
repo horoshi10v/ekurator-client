@@ -3,13 +3,25 @@ import { useNavigate } from 'react-router-dom';
 import {Button} from "react-bootstrap";
 
 const AdminPage = () => {
+    const [searchQuery, setSearchQuery] = useState('');
     const [users, setUsers] = useState([]);
-    const [filteredUsers, setFilteredUsers] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         fetchUsers();
     }, []);
+
+    const handleSearchInputChange = (e) => {
+        setSearchQuery(e.target.value);
+    };
+    const filteredUsers = users.filter(
+        (user) =>
+            user.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    const handleUserClick = (userId) => {
+        navigate(`/user/${userId}`);
+    };
 
     const fetchUsers = async () => {
         try {
@@ -20,7 +32,6 @@ const AdminPage = () => {
             });
             const data = await response.json();
             setUsers(data);
-            setFilteredUsers(data);
         } catch (error) {
             console.error('Error fetching users:', error);
         }
@@ -62,36 +73,56 @@ const AdminPage = () => {
 
     return (
         <div className="container">
-            <h1>Адмін панель</h1>
-            <Button variant="outline-info" className="mb-4 p-2" onClick={handleAddUser}>
-                Додати користувача
-            </Button>
+            <div>
+                <h1>Адмін панель</h1>
+                <div className="row mb-4">
+                    <div className="col-auto">
+                        <Button variant="outline-info" className="p-2" onClick={handleAddUser}>
+                            Додати користувача
+                        </Button>
+                    </div>
+                    <div className="col">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Search by name"
+                            value={searchQuery}
+                            onChange={handleSearchInputChange}
+                        />
+                    </div>
+                </div>
+            </div>
+
+            {filteredUsers.length === 0 ? (
+                <p>Немає результатів</p>
+            ) : (
             <ul className="list-group">
-                {filteredUsers.map((user) => (
-                    <li
-                        key={user.id}
-                        className="list-group-item d-flex align-items-center"
-                        style={{ cursor: 'pointer' }}
-                    >
-                        <img src={user.picture} alt="User" className="rounded-circle me-3" style={{ width: '50px' }} />
-                        <span>{user.name}</span>
-                        <div className="ms-auto"> {/* Added "ms-auto" class to push the buttons to the right */}
-                            <button
-                                className="btn btn-danger m-1"
-                                onClick={() => handleDeleteUser(user.ID, user.name)}
-                            >
-                                Видалити
-                            </button>
-                            <button
-                                className="btn btn-success m-1"
-                                onClick={() => handleUpdateUser(user.ID)}
-                            >
-                                Оновити
-                            </button>
-                        </div>
-                    </li>
-                ))}
-            </ul>
+                    {filteredUsers.map((user) => (
+                        <li
+                            key={user.ID}
+                            className="list-group-item d-flex align-items-center"
+                            style={{ cursor: 'pointer' }}
+                        >
+                            <img src={user.picture} alt="User" className="rounded-circle me-3" style={{ width: '50px' }} />
+                            <span onClick={() => handleUserClick(user.ID)}>{user.name}</span>
+                            <div className="ms-auto"> {/* Added "ms-auto" class to push the buttons to the right */}
+                                <button
+                                    className="btn btn-danger m-1"
+                                    onClick={() => handleDeleteUser(user.ID, user.name)}
+                                >
+                                    Видалити
+                                </button>
+                                <button
+                                    className="btn btn-success m-1"
+                                    onClick={() => handleUpdateUser(user.ID)}
+                                >
+                                    Оновити
+                                </button>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            )}
         </div>
     );
 };

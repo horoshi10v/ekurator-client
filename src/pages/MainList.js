@@ -1,26 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
 
-function MainList() {
+const MainList = observer(({ store, role }) => {
     const navigate = useNavigate();
-    const [users, setUsers] = useState([]);
+
     const [searchQuery, setSearchQuery] = useState('');
     const [departmentFilter, setDepartmentFilter] = useState('');
     const [interestFilter, setInterestFilter] = useState('');
+    const [stageFilter, setStageFilter] = useState('');
+
 
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await fetch('http://localhost:8080/users');
+                const response = await fetch(`http://localhost:8080/users?role=${role}`);
                 const data = await response.json();
-                setUsers(data);
+                store.setUsers(data);
             } catch (error) {
                 console.error('Error fetching user list:', error);
             }
         };
 
         fetchUsers();
-    }, []);
+    }, [role]);
 
     const handleSearchInputChange = (e) => {
         setSearchQuery(e.target.value);
@@ -34,19 +37,29 @@ function MainList() {
         setInterestFilter(e.target.value);
     };
 
-    const filteredUsers = users.filter(
-        (user) =>
-            user.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-            (departmentFilter === '' || user.department === departmentFilter) &&
-            (interestFilter === '' || user.interests.toLowerCase().includes(interestFilter.toLowerCase()))
-    );
+    const handleStageFilterChange = (e) => {
+        setStageFilter(e.target.value);
+    };
 
     const handleUserClick = (userId) => {
         navigate(`/user/${userId}`);
     };
 
-    const departments = [...new Set(users.map((user) => user.department))];
-    const interests = [...new Set(users.map((user) => user.interests.split(',').map((interest) => interest.trim())).flat())];
+    const filteredUsers = store.users.filter(
+        (user) =>
+            user.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+            (departmentFilter === '' || user.department === departmentFilter) &&
+            (stageFilter === '' || user.stage.toLowerCase().includes(stageFilter.toLowerCase())) &&
+            (interestFilter === '' || user.interests.toLowerCase().includes(interestFilter.toLowerCase()))
+    );
+
+    const stage = [
+        ...new Set(store.users.map((user) => user.stage.split(',').map((stage) => stage.trim())).flat()),
+    ];
+    const departments = [...new Set(store.users.map((user) => user.department))];
+    const interests = [
+        ...new Set(store.users.map((user) => user.interests.split(',').map((interest) => interest.trim())).flat()),
+    ];
 
     return (
         <div className="container">
@@ -55,18 +68,14 @@ function MainList() {
                 <input
                     type="text"
                     className="form-control"
-                    placeholder="Search by name"
+                    placeholder="Пошук по імені"
                     value={searchQuery}
                     onChange={handleSearchInputChange}
                 />
             </div>
             <div className="d-flex mb-3">
                 <div className="me-2">
-                    <select
-                        className="form-select"
-                        value={departmentFilter}
-                        onChange={handleDepartmentFilterChange}
-                    >
+                    <select className="form-select" value={departmentFilter} onChange={handleDepartmentFilterChange}>
                         <option value="">Всі кафедри</option>
                         {departments.map((department) => (
                             <option key={department} value={department}>
@@ -76,15 +85,21 @@ function MainList() {
                     </select>
                 </div>
                 <div>
-                    <select
-                        className="form-select"
-                        value={interestFilter}
-                        onChange={handleInterestFilterChange}
-                    >
+                    <select className="form-select" value={interestFilter} onChange={handleInterestFilterChange}>
                         <option value="">Всі інтереси</option>
                         {interests.map((interest) => (
                             <option key={interest} value={interest}>
                                 {interest}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div className="px-2">
+                    <select className="form-select" value={stageFilter} onChange={handleStageFilterChange}>
+                        <option value="">Всі ступені</option>
+                        {stage.map((stage) => (
+                            <option key={stage} value={stage}>
+                                {stage}
                             </option>
                         ))}
                     </select>
@@ -112,10 +127,9 @@ function MainList() {
                         </li>
                     ))}
                 </ul>
-
             )}
         </div>
     );
-}
+});
 
 export default MainList;

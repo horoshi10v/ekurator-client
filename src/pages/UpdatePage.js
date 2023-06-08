@@ -3,17 +3,19 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../components/UserContext';
 import { MDBSelect } from 'mdb-react-ui-kit';
 import Select from 'react-select';
+import {useUserData} from "../http/useUserData";
 
 function UpdatePage() {
     const [interest, setInterest] = useState([]);
     const { userId } = useParams();
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
-    const [userData, setUserData] = useState(null);
+    const userData = useUserData(userId);
     const [picture, setPicture] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [role, setRole] = useState('');
+    const [stage, setStage] = useState('');
     const [department, setDepartment] = useState('');
     const [interests, setInterests] = useState('');
     const [phone, setPhone] = useState('');
@@ -30,23 +32,6 @@ function UpdatePage() {
     const handleInterestsChange = (selectedOptions) => {
         setSelectedInterests(selectedOptions);
     };
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const response = await fetch(`http://127.0.0.1:8080/user/${userId}`, {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' },
-                    credentials: 'include',
-                });
-                const content = await response.json();
-                setUserData(content);
-            } catch (error) {
-                console.error('Error fetching user data:', error);
-            }
-        };
-
-        fetchUserData();
-    }, [userId]);
 
     useEffect(() => {
         if (userData) {
@@ -54,6 +39,7 @@ function UpdatePage() {
             setName(userData.name);
             setEmail(userData.email);
             setRole(userData.role);
+            setStage(userData.stage);
             setDepartment(userData.department);
             setInterests(userData.interests);
             setPhone(userData.phone);
@@ -69,6 +55,7 @@ function UpdatePage() {
             email,
             name,
             role,
+            stage,
             department,
             interests,
             description: description.replace(/\n/g, '<br>'), // Replace newline characters with <br> tags,
@@ -85,7 +72,7 @@ function UpdatePage() {
 
             if (response.ok) {
                 // Handle success
-                navigate('/user');
+                navigate(`/user/${userId}`);
                 console.log('User updated successfully');
                 // Redirect or show a success message
             } else {
@@ -104,11 +91,11 @@ function UpdatePage() {
 
     return (
         <div className="container">
-            <h1>Update User Information</h1>
+            <h1>Оновити інформацію користувача</h1>
             <form onSubmit={handleFormSubmit}>
                 <div className="mb-3">
                     <label htmlFor="name" className="form-label">
-                        Picture
+                        URL-посилання на зображення
                     </label>
                     <input
                         type="text"
@@ -120,7 +107,7 @@ function UpdatePage() {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="name" className="form-label">
-                        Name
+                        Ім'я
                     </label>
                     <input
                         type="text"
@@ -144,7 +131,7 @@ function UpdatePage() {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="role" className="form-label">
-                        Role
+                        Роль
                     </label>
                     <select
                         className="form-control"
@@ -152,14 +139,31 @@ function UpdatePage() {
                         value={role}
                         onChange={(e) => setRole(e.target.value)}
                     >
-                        <option value="">Select a role</option>
+                        <option value="">Оберіть роль</option>
                         <option value="студент">студент</option>
                         <option value="куратор">куратор</option>
                     </select>
                 </div>
                 <div className="mb-3">
+                    <label htmlFor="stage" className="form-label">
+                        Ступінь
+                    </label>
+                    <select
+                        className="form-control"
+                        id="stage"
+                        value={stage}
+                        onChange={(e) => setStage(e.target.value)}
+                    >
+                        <option value="">Оберіть ступінь</option>
+                        <option value="бакалавр">бакалавр</option>
+                        <option value="магістр">магістр</option>
+                        <option value="бакалавр, магістр">все</option>
+                    </select>
+                </div>
+
+                <div className="mb-3">
                     <label htmlFor="department" className="form-label">
-                        Department
+                        Кафедра
                     </label>
                     <select
                         className="form-control"
@@ -167,7 +171,7 @@ function UpdatePage() {
                         value={department}
                         onChange={(e) => setDepartment(e.target.value)}
                     >
-                        <option value="">Select a department</option>
+                        <option value=""></option>
                         <option value="ЕОМ">ЕОМ</option>
                         <option value="АПОТ">АПОТ</option>
                         <option value="БІТ">БІТ</option>
@@ -181,28 +185,30 @@ function UpdatePage() {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="interests" className="form-label">
-                        Interests
+                        Інтереси
                     </label>
                     <Select
                         id="interests"
                         className="form-control"
                         isMulti
                         options={[
-                            { value: 'Interest 1', label: 'Interest 1' },
-                            { value: 'Interest 2', label: 'Interest 2' },
-                            { value: 'Interest 3', label: 'Interest 3' },
-                            { value: 'Interest 4', label: 'Interest 4' },
-                            { value: 'Interest 5', label: 'Interest 5' },
+                            { value: 'IoT', label: 'IoT' },
+                            { value: 'Cloud-технології', label: 'Cloud-технології' },
+                            { value: 'Комп\'ютерні системи і мережі', label: 'Комп\'ютерні системи і мережі' },
+                            { value: 'AI', label: 'AI' },
+                            { value: 'Backend', label: 'Backend' },
+                            { value: 'Frontend', label: 'Frontend' },
+                            { value: 'ІТ-інфраструктура', label: 'ІТ-інфраструктура' },
+                            { value: 'Інтелектуальна обробка даних', label: 'Інтелектуальна обробка даних' },
+                            { value: 'C++', label: 'C++' },
+                            { value: 'Java', label: 'Java' },
+                            { value: 'JavaScript', label: 'JavaScript' },
                         ]}
                         value={selectedInterests}
                         onChange={handleInterestsChange}
                     />
                 </div>
-                {/* Rest of the form */}
                 <div className="mb-3">
-                    <label htmlFor="interestsString" className="form-label">
-                        Interests String
-                    </label>
                     <input
                         type="text"
                         className="form-control"
@@ -213,7 +219,7 @@ function UpdatePage() {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="phone" className="form-label">
-                        Phone
+                        Телефон
                     </label>
                     <input
                         type="text"
@@ -225,7 +231,7 @@ function UpdatePage() {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="description" className="form-label">
-                        Description
+                        Про себе
                     </label>
                     <textarea
                         className="form-control"

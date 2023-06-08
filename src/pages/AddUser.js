@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import {useState} from "react";
+import React, {useEffect, useState} from "react";
+import Select from "react-select";
 
 function AddUserForm() {
     const navigate = useNavigate();
@@ -9,10 +10,24 @@ function AddUserForm() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [role, setRole] = useState('');
+    const [stage, setStage] = useState('');
     const [department, setDepartment] = useState('');
     const [interests, setInterests] = useState('');
     const [phone, setPhone] = useState('');
     const [description, setDescription] = useState('');
+    const [selectedInterests, setSelectedInterests] = useState([]);
+    //const [interestsString, setInterestsString] = useState('');
+
+    useEffect(() => {
+        const interestsLabels = selectedInterests.map((option) => option.label);
+        const interestsString = interestsLabels.join(', ');
+        setInterests(interestsString);
+    }, [selectedInterests]);
+
+    const handleInterestsChange = (selectedOptions) => {
+        setSelectedInterests(selectedOptions);
+    };
+
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
@@ -21,7 +36,7 @@ function AddUserForm() {
           picture,
           name,
           email,
-          role,
+          role, stage,
           department,
           interests,
           phone,
@@ -41,6 +56,7 @@ function AddUserForm() {
         setName('');
         setEmail('');
         setRole('');
+        setStage('');
         setDepartment('');
         setInterests('');
         setPhone('');
@@ -52,11 +68,11 @@ function AddUserForm() {
 
     return (
         <div className="container">
-            <h1>Update User Information</h1>
+            <h1>Додати нового користувача</h1>
             <form onSubmit={handleFormSubmit}>
                 <div className="mb-3">
                     <label htmlFor="name" className="form-label">
-                        Picture
+                        URL-посилання на зображення
                     </label>
                     <input
                         type="text"
@@ -68,7 +84,7 @@ function AddUserForm() {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="name" className="form-label">
-                        Name
+                        Ім'я
                     </label>
                     <input
                         type="text"
@@ -92,7 +108,7 @@ function AddUserForm() {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="role" className="form-label">
-                        Role
+                        Роль
                     </label>
                     <select
                         className="form-control"
@@ -100,14 +116,30 @@ function AddUserForm() {
                         value={role}
                         onChange={(e) => setRole(e.target.value)}
                     >
-                        <option value="">Select a role</option>
+                        <option value="">Оберіть роль</option>
                         <option value="студент">студент</option>
                         <option value="куратор">куратор</option>
                     </select>
                 </div>
                 <div className="mb-3">
+                    <label htmlFor="stage" className="form-label">
+                        Ступінь
+                    </label>
+                    <select
+                        className="form-control"
+                        id="stage"
+                        value={stage}
+                        onChange={(e) => setStage(e.target.value)}
+                    >
+                        <option value="">Оберіть ступінь</option>
+                        <option value="бакалавр">бакалавр</option>
+                        <option value="магістр">магістр</option>
+                        <option value="бакалавр, магістр">все</option>
+                    </select>
+                </div>
+                <div className="mb-3">
                     <label htmlFor="department" className="form-label">
-                        Department
+                        Кафедра
                     </label>
                     <select
                         className="form-control"
@@ -115,7 +147,7 @@ function AddUserForm() {
                         value={department}
                         onChange={(e) => setDepartment(e.target.value)}
                     >
-                        <option value="">Select a department</option>
+                        <option value="">Оберіть кафедру</option>
                         <option value="ЕОМ">ЕОМ</option>
                         <option value="АПОТ">АПОТ</option>
                         <option value="БІТ">БІТ</option>
@@ -129,19 +161,41 @@ function AddUserForm() {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="interests" className="form-label">
-                        Interests
+                        Інтереси
                     </label>
+                    <Select
+                        id="interests"
+                        className="form-control"
+                        isMulti
+                        options={[
+                            { value: 'IoT', label: 'IoT' },
+                            { value: 'Cloud-технології', label: 'Cloud-технології' },
+                            { value: 'Комп\'ютерні системи і мережі', label: 'Комп\'ютерні системи і мережі' },
+                            { value: 'AI', label: 'AI' },
+                            { value: 'Backend', label: 'Backend' },
+                            { value: 'Frontend', label: 'Frontend' },
+                            { value: 'ІТ-інфраструктура', label: 'ІТ-інфраструктура' },
+                            { value: 'Інтелектуальна обробка даних', label: 'Інтелектуальна обробка даних' },
+                            { value: 'C++', label: 'C++' },
+                            { value: 'Java', label: 'Java' },
+                            { value: 'JavaScript', label: 'JavaScript' },
+                        ]}
+                        value={selectedInterests}
+                        onChange={handleInterestsChange}
+                    />
+                </div>
+                <div className="mb-3">
                     <input
                         type="text"
                         className="form-control"
-                        id="interests"
+                        id="interestsString"
                         value={interests}
                         onChange={(e) => setInterests(e.target.value)}
                     />
                 </div>
                 <div className="mb-3">
                     <label htmlFor="phone" className="form-label">
-                        Phone
+                        Телефон
                     </label>
                     <input
                         type="text"
@@ -153,7 +207,7 @@ function AddUserForm() {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="description" className="form-label">
-                        Description
+                        Опис
                     </label>
                     <textarea
                         className="form-control"

@@ -44,16 +44,19 @@ function UserPage() {
                                 <a href={`mailto:${user.email}`}>{user.email}</a>
                             </p>
                             <p className="card-text">
-                                <strong>Role: </strong>{user.role}
+                                <strong>Роль: </strong>{user.role}
                             </p>
                             <p className="card-text">
-                                <strong>Department: </strong>{user.department}
+                                <strong>Ступінь: </strong>{user.stage}
                             </p>
                             <p className="card-text">
-                                <strong>Interests: </strong>{user.interests}
+                                <strong>Кафедра: </strong>{user.department}
                             </p>
                             <p className="card-text">
-                                <strong>Phone: </strong>{user.phone}
+                                <strong>Інтереси: </strong>{user.interests}
+                            </p>
+                            <p className="card-text">
+                                <strong>Телефон: </strong>{user.phone}
                             </p>
                             <button
                                 className="btn btn-primary"

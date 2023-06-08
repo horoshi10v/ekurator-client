@@ -54,6 +54,10 @@ function ViewPage() {
                                 {viewData.department}
                             </p>
                             <p className="card-text">
+                                <strong>Ступінь: </strong>
+                                {viewData.stage}
+                            </p>
+                            <p className="card-text">
                                 <strong>Interests: </strong>
                                 {viewData.interests}
                             </p>

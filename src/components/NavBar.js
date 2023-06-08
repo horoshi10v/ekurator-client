@@ -30,17 +30,16 @@ function Navbar() {
                                 Головна
                             </Link>
                         </li>
-                        <li className={`nav-item ${location.pathname === '/kurators' ? 'active' : ''}`}>
-                            <Link className="nav-link" to="/about">
-                                Куратори
-                            </Link>
-                        </li>
-                        <li className={`nav-item ${location.pathname === '/students' ? 'active' : ''}`}>
-                            <Link className="nav-link" to="/about">
+                        <li className={`nav-item ${location.pathname === '/bachelor' ? 'active' : ''}`}>
+                            <Link className="nav-link" to="users/students">
                                 Студенти
                             </Link>
                         </li>
-                        {/* Add more navigation links here */}
+                        <li className={`nav-item ${location.pathname === '/master' ? 'active' : ''}`}>
+                            <Link className="nav-link" to="users/curators">
+                                Куратори
+                            </Link>
+                        </li>
                     </ul>
                 </div>
 

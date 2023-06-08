@@ -1,5 +1,14 @@
 import AdminPage from "./pages/AdminPage";
-import {ADD_ROUTE, ADMIN_ROUTE, LOGIN_ROUTE, MAIN_ROUTE, UPDATE_ROUTE, USER_ROUTE, VIEW_ROUTE} from "./utils/consts";
+import {
+    ADD_ROUTE,
+    ADMIN_ROUTE,
+    BACHELOR_ROUTE,
+    LOGIN_ROUTE,
+    MAIN_ROUTE,
+    UPDATE_ROUTE,
+    USER_ROUTE,
+    VIEW_ROUTE
+} from "./utils/consts";
 import Auth from "./pages/Auth";
 import MainList from "./pages/MainList";
 import UserPage from "./pages/UserPage";
@@ -26,6 +35,14 @@ export const publicRoutes =[
     {
         path: LOGIN_ROUTE,
         Component: Auth
+    },
+    {
+        path: MAIN_ROUTE,
+        Component: MainList
+    },
+    {
+        path: BACHELOR_ROUTE,
+        Component: <MainList role="bachelor"/>
     },
     {
         path: MAIN_ROUTE,
