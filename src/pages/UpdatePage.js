@@ -1,8 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../components/UserContext';
+import { MDBSelect } from 'mdb-react-ui-kit';
+import Select from 'react-select';
 
 function UpdatePage() {
+    const [interest, setInterest] = useState([]);
     const { userId } = useParams();
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
@@ -15,7 +18,18 @@ function UpdatePage() {
     const [interests, setInterests] = useState('');
     const [phone, setPhone] = useState('');
     const [description, setDescription] = useState('');
+    const [selectedInterests, setSelectedInterests] = useState([]);
+    //const [interestsString, setInterestsString] = useState('');
 
+    useEffect(() => {
+        const interestsLabels = selectedInterests.map((option) => option.label);
+        const interestsString = interestsLabels.join(', ');
+        setInterests(interestsString);
+    }, [selectedInterests]);
+
+    const handleInterestsChange = (selectedOptions) => {
+        setSelectedInterests(selectedOptions);
+    };
     useEffect(() => {
         const fetchUserData = async () => {
             try {
@@ -169,10 +183,30 @@ function UpdatePage() {
                     <label htmlFor="interests" className="form-label">
                         Interests
                     </label>
+                    <Select
+                        id="interests"
+                        className="form-control"
+                        isMulti
+                        options={[
+                            { value: 'Interest 1', label: 'Interest 1' },
+                            { value: 'Interest 2', label: 'Interest 2' },
+                            { value: 'Interest 3', label: 'Interest 3' },
+                            { value: 'Interest 4', label: 'Interest 4' },
+                            { value: 'Interest 5', label: 'Interest 5' },
+                        ]}
+                        value={selectedInterests}
+                        onChange={handleInterestsChange}
+                    />
+                </div>
+                {/* Rest of the form */}
+                <div className="mb-3">
+                    <label htmlFor="interestsString" className="form-label">
+                        Interests String
+                    </label>
                     <input
                         type="text"
                         className="form-control"
-                        id="interests"
+                        id="interestsString"
                         value={interests}
                         onChange={(e) => setInterests(e.target.value)}
                     />

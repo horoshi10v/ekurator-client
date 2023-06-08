@@ -61,10 +61,10 @@ const AdminPage = () => {
     };
 
     return (
-        <div>
-            <h1>Admin Page</h1>
-            <Button variant="outline-dark" className="mt-4 p-2" onClick={handleAddUser}>
-                Добавить тип
+        <div className="container">
+            <h1>Адмін панель</h1>
+            <Button variant="outline-info" className="mb-4 p-2" onClick={handleAddUser}>
+                Додати користувача
             </Button>
             <ul className="list-group">
                 {filteredUsers.map((user) => (
@@ -80,13 +80,13 @@ const AdminPage = () => {
                                 className="btn btn-danger m-1"
                                 onClick={() => handleDeleteUser(user.ID, user.name)}
                             >
-                                Delete
+                                Видалити
                             </button>
                             <button
                                 className="btn btn-success m-1"
                                 onClick={() => handleUpdateUser(user.ID)}
                             >
-                                Update Info
+                                Оновити
                             </button>
                         </div>
                     </li>

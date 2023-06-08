@@ -91,7 +91,7 @@ function MainList() {
                 </div>
             </div>
             {filteredUsers.length === 0 ? (
-                <p>No users</p>
+                <p>Немає результатів</p>
             ) : (
                 <ul className="list-group">
                     {filteredUsers.map((user) => (
@@ -102,10 +102,17 @@ function MainList() {
                             style={{ cursor: 'pointer' }}
                         >
                             <img src={user.picture} alt="User" className="rounded-circle me-3" style={{ width: '50px' }} />
-                            <span>{user.name}</span>
+                            <div className="d-flex flex-column">
+                                <div className="d-flex">
+                                    <div className="me-3">{user.name}</div>
+                                    <div className="me-3">Кафедра: {user.department}</div>
+                                    <div className="me-3">Інтереси: {user.interests}</div>
+                                </div>
+                            </div>
                         </li>
                     ))}
                 </ul>
+
             )}
         </div>
     );
