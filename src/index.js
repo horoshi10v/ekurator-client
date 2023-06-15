@@ -2,8 +2,7 @@ import React, {createContext} from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {create} from "axios";
-import UserStore from "./store/UserStore";
+import UserStore from "./utils/UserUtils";
 
 export const Context = createContext(null)
 

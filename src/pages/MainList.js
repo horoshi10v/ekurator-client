@@ -1,57 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import { observer } from 'mobx-react-lite';
+import {useUserList} from "../utils/UserUtils";
 
 const MainList = observer(({ store, role }) => {
-    const navigate = useNavigate();
+    const {
+        searchQuery,
+        departmentFilter,
+        interestFilter,
+        stageFilter,
+        handleSearchInputChange,
+        handleDepartmentFilterChange,
+        handleInterestFilterChange,
+        handleStageFilterChange,
+        handleUserClick,
+        getFilteredUsers,
+    } = useUserList(store, role);
 
-    const [searchQuery, setSearchQuery] = useState('');
-    const [departmentFilter, setDepartmentFilter] = useState('');
-    const [interestFilter, setInterestFilter] = useState('');
-    const [stageFilter, setStageFilter] = useState('');
+    const filteredUsers = getFilteredUsers();
 
-
-    useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const response = await fetch(`http://localhost:8080/users?role=${role}`);
-                const data = await response.json();
-                store.setUsers(data);
-            } catch (error) {
-                console.error('Error fetching user list:', error);
-            }
-        };
-
-        fetchUsers();
-    }, [role]);
-
-    const handleSearchInputChange = (e) => {
-        setSearchQuery(e.target.value);
-    };
-
-    const handleDepartmentFilterChange = (e) => {
-        setDepartmentFilter(e.target.value);
-    };
-
-    const handleInterestFilterChange = (e) => {
-        setInterestFilter(e.target.value);
-    };
-
-    const handleStageFilterChange = (e) => {
-        setStageFilter(e.target.value);
-    };
-
-    const handleUserClick = (userId) => {
-        navigate(`/user/${userId}`);
-    };
-
-    const filteredUsers = store.users.filter(
-        (user) =>
-            user.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-            (departmentFilter === '' || user.department === departmentFilter) &&
-            (stageFilter === '' || user.stage.toLowerCase().includes(stageFilter.toLowerCase())) &&
-            (interestFilter === '' || user.interests.toLowerCase().includes(interestFilter.toLowerCase()))
-    );
+    const userCount = filteredUsers.length;
 
     const stage = [
         ...new Set(store.users.map((user) => user.stage.split(',').map((stage) => stage.trim())).flat()),
@@ -63,7 +30,7 @@ const MainList = observer(({ store, role }) => {
 
     return (
         <div className="container">
-            <h1 className="mt-4">Всі користувачі</h1>
+            <h1 className="mt-4">Всього користувачів - {userCount}</h1> {/* Display user count */}
             <div className="mb-3">
                 <input
                     type="text"
@@ -108,7 +75,7 @@ const MainList = observer(({ store, role }) => {
             {filteredUsers.length === 0 ? (
                 <p>Немає результатів</p>
             ) : (
-                <ul className="list-group">
+                <ul className="list-group mb-5">
                     {filteredUsers.map((user) => (
                         <li
                             key={user.ID}

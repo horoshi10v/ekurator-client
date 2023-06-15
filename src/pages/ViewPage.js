@@ -32,7 +32,7 @@ function ViewPage() {
     return (
         <div className="container">
             <div className="row">
-                <div className="col-md-4">
+                <div className="col-md-4 mt-2 mb-2">
                     <div className="card">
                         <img
                             src={viewData.picture}
@@ -68,7 +68,7 @@ function ViewPage() {
                         </div>
                     </div>
                 </div>
-                <div className="col-md-8">
+                <div className="col-md-8 mt-2 mb-2">
                     <div className="card">
                         <div className="card-body">
                             <h5 className="card-title">About Me</h5>

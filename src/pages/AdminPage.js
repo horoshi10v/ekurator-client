@@ -85,7 +85,7 @@ const AdminPage = () => {
                         <input
                             type="text"
                             className="form-control"
-                            placeholder="Search by name"
+                            placeholder="Пошук..."
                             value={searchQuery}
                             onChange={handleSearchInputChange}
                         />
@@ -96,7 +96,7 @@ const AdminPage = () => {
             {filteredUsers.length === 0 ? (
                 <p>Немає результатів</p>
             ) : (
-            <ul className="list-group">
+            <ul className="list-group mb-5">
                     {filteredUsers.map((user) => (
                         <li
                             key={user.ID}
