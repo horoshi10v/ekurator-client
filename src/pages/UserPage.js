@@ -62,7 +62,7 @@ function UserPage() {
                                 className="btn btn-primary"
                                 onClick={() => handleUserClick(user.ID)}
                             >
-                                Update Info
+                                Оновити
                             </button>
                         </div>
                     </div>

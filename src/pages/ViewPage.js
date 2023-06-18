@@ -1,9 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import {UserContext} from "../components/UserContext";
 
 function ViewPage() {
     const { userId } = useParams();
+    const navigate = useNavigate();
+    const { user } = useContext(UserContext); // Get the user from UserContext
     const [viewData, setViewData] = useState(null);
+
+    const handleUserClick = (userId) => {
+        navigate(`/user/${userId}/update`);
+    };
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -28,6 +35,8 @@ function ViewPage() {
     }
 
     const formattedDescription = viewData.description.replace(/\n/g, '<br>'); // Replace newline characters with <br> tags
+
+    const isCurrentUser = user && (user.ID === viewData.ID || user.role === 'admin'); // Check if the user is the current user or has admin role
 
     return (
         <div className="container">
@@ -65,6 +74,14 @@ function ViewPage() {
                                 <strong>Phone: </strong>
                                 {viewData.phone}
                             </p>
+                            {isCurrentUser && (
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={() => handleUserClick(viewData.ID)}
+                                >
+                                    Оновити
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -72,7 +89,10 @@ function ViewPage() {
                     <div className="card">
                         <div className="card-body">
                             <h5 className="card-title">About Me</h5>
-                            <p className="card-text" dangerouslySetInnerHTML={{ __html: formattedDescription }}></p>
+                            <p
+                                className="card-text"
+                                dangerouslySetInnerHTML={{ __html: formattedDescription }}
+                            ></p>
                         </div>
                     </div>
                 </div>
