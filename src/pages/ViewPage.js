@@ -55,11 +55,14 @@ function ViewPage() {
                                 <a href={`mailto:${viewData.email}`}>{viewData.email}</a>
                             </p>
                             <p className="card-text">
-                                <strong>Role: </strong>
+                                <strong>Роль: </strong>
                                 {viewData.role}
                             </p>
                             <p className="card-text">
-                                <strong>Department: </strong>
+                                {viewData.phone}
+                            </p>
+                            <p className="card-text">
+                                <strong>Кафедра: </strong>
                                 {viewData.department}
                             </p>
                             <p className="card-text">
@@ -67,12 +70,8 @@ function ViewPage() {
                                 {viewData.stage}
                             </p>
                             <p className="card-text">
-                                <strong>Interests: </strong>
+                                <strong>Інтереси: </strong>
                                 {viewData.interests}
-                            </p>
-                            <p className="card-text">
-                                <strong>Phone: </strong>
-                                {viewData.phone}
                             </p>
                             {isCurrentUser && (
                                 <button
@@ -88,7 +87,7 @@ function ViewPage() {
                 <div className="col-md-8 mt-2 mb-2">
                     <div className="card">
                         <div className="card-body">
-                            <h5 className="card-title">About Me</h5>
+                            <h5 className="card-title">Інформація про мене</h5>
                             <p
                                 className="card-text"
                                 dangerouslySetInnerHTML={{ __html: formattedDescription }}

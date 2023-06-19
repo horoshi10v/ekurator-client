@@ -38,7 +38,7 @@ const AdminPage = () => {
     };
 
     const handleDeleteUser = (userId, userName) => {
-        const confirmDelete = window.confirm(`Are you sure you want to delete user ${userName}?`);
+        const confirmDelete = window.confirm(`Ви впевнені, що хочете видалити користувача ${userName}?`);
         if (confirmDelete) {
             deleteUser(userId).then(r => fetchUsers());
         }

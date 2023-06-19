@@ -122,6 +122,15 @@ function AddUserForm() {
                     </select>
                 </div>
                 <div className="mb-3">
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="phone"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                    />
+                </div>
+                <div className="mb-3">
                     <label htmlFor="stage" className="form-label">
                         Ступінь
                     </label>
@@ -191,18 +200,6 @@ function AddUserForm() {
                         id="interestsString"
                         value={interests}
                         onChange={(e) => setInterests(e.target.value)}
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="phone" className="form-label">
-                        Телефон
-                    </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="phone"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
                     />
                 </div>
                 <div className="mb-3">

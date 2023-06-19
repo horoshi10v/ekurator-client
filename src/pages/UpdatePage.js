@@ -145,6 +145,16 @@ function UpdatePage() {
                     </select>
                 </div>
                 <div className="mb-3">
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="phone"
+                        placeholder="та впишіть группу або посаду"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                    />
+                </div>
+                <div className="mb-3">
                     <label htmlFor="stage" className="form-label">
                         Ступінь
                     </label>
@@ -214,19 +224,8 @@ function UpdatePage() {
                         className="form-control"
                         id="interestsString"
                         value={interests}
+                        placeholder="Вкажіть через кому"
                         onChange={(e) => setInterests(e.target.value)}
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="phone" className="form-label">
-                        Телефон
-                    </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="phone"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
                     />
                 </div>
                 <div className="mb-3">
