@@ -87,7 +87,7 @@ function ViewPage() {
                 <div className="col-md-8 mt-2 mb-2">
                     <div className="card">
                         <div className="card-body">
-                            <h5 className="card-title">Інформація про мене</h5>
+                            <h5 className="card-title">Інформація про користувача</h5>
                             <p
                                 className="card-text"
                                 dangerouslySetInnerHTML={{ __html: formattedDescription }}
