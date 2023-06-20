@@ -5,6 +5,17 @@ Ekurator is designed to provide a user-friendly interface for managing and visua
 
 ## Screenshots
 
+### Main Page
+<img src="public/img.png" alt="main" title="EkuratorMain" style="margin-right: 10px; width: 60%;">
+
+### User Page
+<img src="public/img_1.png" alt="main" title="EkuratorMain" style="margin-right: 10px; width: 60%;">
+
+### Update Page
+<img src="public/img_2.png" alt="main" title="EkuratorMain" style="margin-right: 10px; width: 60%;">
+
+### Admin Panel
+<img src="public/img_3.png" alt="main" title="EkuratorMain" style="margin-right: 10px; width: 60%;">
 
 ## Prerequisites
 
