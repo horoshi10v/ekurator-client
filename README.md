@@ -1,4 +1,4 @@
-# <img src="public/ic_launcher-web.png" alt="Ekurator Logo" title="Ekurator" style="margin-right: 10px; width: 50px; height: 50px;"> eKurator React Frontend App
+# <img src="public/ic_launcher-web.png" alt="Ekurator Logo" title="Ekurator" style="margin-right: 10px; width: 50px; height: 50px;"> eKurator React Frontend Client for [REST-API](https://github.com/horoshi10v/apiKurator)
 
 This repository contains the frontend application for [eKurator](https://github.com/horoshi10v/apiKurator), a React-based web application. 
 Ekurator is designed to provide a user-friendly interface for managing and visualizing JSON data. It serves as a client-side application that communicates with a Golang REST-API backend server.
